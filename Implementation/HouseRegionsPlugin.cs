@@ -46,10 +46,6 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
       );
 
       this.Order = 1;
-      #if DEBUG
-      if (Debug.Listeners.Count == 0)
-        Debug.Listeners.Add(new ConsoleTraceListener());
-      #endif
 
       this.Trace = new PluginTrace(HouseRegionsPlugin.TracePrefix);
       HouseRegionsPlugin.LatestInstance = this;
