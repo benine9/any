@@ -531,7 +531,7 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
             if (houseArea != Rectangle.Empty)
               this.SendAreaDottedFakeWires(playerLocal, houseArea, false);
 
-            playerLocal.SendTileSquare(tileLocation);
+            playerLocal.SendTileSquareCentered(tileLocation);
 
             if (point2 != DPoint.Empty)
               this.SendFakeWireCross(playerLocal, point2);
@@ -547,7 +547,7 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
             if (houseArea != Rectangle.Empty)
               this.SendAreaDottedFakeWires(playerLocal, houseArea, false);
 
-            playerLocal.SendTileSquare(tileLocation);
+            playerLocal.SendTileSquareCentered(tileLocation);
 
             if (point1 != DPoint.Empty)
               this.SendFakeWireCross(playerLocal, point1);
@@ -568,7 +568,7 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
           else
             point2 = tileLocation;
 
-          playerLocal.SendTileSquare(tileLocation);
+          playerLocal.SendTileSquareCentered(tileLocation);
           this.SendFakeWireCross(playerLocal, tileLocation);
 
           if (point1 != DPoint.Empty && point2 != DPoint.Empty) {
@@ -600,10 +600,10 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
           return new CommandInteractionResult { IsHandled = true, IsInteractionCompleted = false };
         } else {
           // Final Mark
-          playerLocal.SendTileSquare(point1);
-          playerLocal.SendTileSquare(point2);
+          playerLocal.SendTileSquareCentered(point1);
+          playerLocal.SendTileSquareCentered(point2);
           this.SendAreaDottedFakeWires(playerLocal, houseArea, false);
-          playerLocal.SendTileSquare(tileLocation);
+          playerLocal.SendTileSquareCentered(tileLocation);
 
           if (
             tileLocation.X >= houseArea.Left && tileLocation.X <= houseArea.Right && 
@@ -644,9 +644,9 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
       };
       interaction.AbortedCallback += (playerLocal) => {
         if (point1 != DPoint.Empty)
-          playerLocal.SendTileSquare(point1);
+          playerLocal.SendTileSquareCentered(point1);
         if (point2 != DPoint.Empty)
-          playerLocal.SendTileSquare(point2);
+          playerLocal.SendTileSquareCentered(point2);
         if (houseArea != Rectangle.Empty)
           this.SendAreaDottedFakeWires(playerLocal, houseArea, false);
       };
@@ -1189,7 +1189,7 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
 
       try {
         tile.wire2(true);
-        player.SendTileSquare(tileLocation, 1);
+        player.SendTileSquareCentered(tileLocation, 1);
       } finally {
         tile.wire2(false);
       }

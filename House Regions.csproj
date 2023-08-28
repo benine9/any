@@ -1,59 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Terraria.Plugins.CoderCow.HouseRegions</RootNamespace>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ModFramework">
-      <HintPath>J:\Downloads\TShock-Beta-win-x64-Release-4\bin\ModFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="OTAPI">
-      <HintPath>J:\Downloads\TShock-Beta-win-x64-Release-4\bin\OTAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin Common Lib 4.2.0">
-      <HintPath>J:\Downloads\TShock-Beta-win-x64-Release-4\ServerPlugins\Plugin Common Lib 4.2.0.dll</HintPath>
-    </Reference>
-    <Reference Include="TerrariaServer">
-      <HintPath>J:\Downloads\TShock-Beta-win-x64-Release-4\bin\TerrariaServer.dll</HintPath>
-    </Reference>
-    <Reference Include="TShockAPI">
-      <HintPath>J:\Downloads\TShock-Beta-win-x64-Release-4\ServerPlugins\TShockAPI.dll</HintPath>
-    </Reference>
+    <None Remove="tshock\House Regions\Config.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE.txt" />
-    <Content Include="tshock\House Regions\Config.xml">
+    <EmbeddedResource Include="tshock\House Regions\Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tshock\House Regions\Config.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="tshock\House Regions\License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Update="tshock\House Regions\Config.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="TShock" Version="5.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <Reference Include="Plugin Common Lib 4.2.0">
+      <HintPath>..\PluginCommonLibrary\bin\x64\Release\net6.0\Plugin Common Lib 4.2.0.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup />
   <PropertyGroup>
     <PreBuildEvent>IF "$(ConfigurationName)" == "Release" (
   GitVersion.exe /updateassemblyinfo "$(ProjectDir)Properties/AssemblyInfo.cs"
 )</PreBuildEvent>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 </Project>

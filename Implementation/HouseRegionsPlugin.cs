@@ -2,8 +2,9 @@
 using System.Diagnostics;
 
 using System.IO;
+using System.Linq;
 using System.Reflection;
-
+using System.Xml.Linq;
 using Terraria.Plugins.Common;
 using Terraria.Plugins.Common.Hooks;
 
@@ -85,9 +86,17 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
           this.Dispose();
           return false;
         }
-      } else {
-        this.Config = new Configuration();
-      }
+      } else {      
+        var assembly = Assembly.GetExecutingAssembly();
+        string resourceNamexml = assembly.GetManifestResourceNames().Single(str => str.EndsWith("Config.xml"));
+        XDocument xdoc = XDocument.Load(this.GetType().Assembly.GetManifestResourceStream(resourceNamexml));
+        xdoc.Save(DataDirectory + "/Config.xml");
+        string resourceNamexsd = assembly.GetManifestResourceNames().Single(str => str.EndsWith("Config.xsd"));
+        XDocument xsddoc = XDocument.Load(this.GetType().Assembly.GetManifestResourceStream(resourceNamexsd));
+        xsddoc.Save(DataDirectory + "/Config.xsd");
+
+        this.Config = Configuration.Read(HouseRegionsPlugin.ConfigFilePath);
+            }
 
       return true;
     }
