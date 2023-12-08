@@ -74,7 +74,28 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
       }
       if (houseIndex > maxHouses)
         throw new LimitEnforcementException("Max amount of houses reached.");
-
+int dungeonX = Main.dungeonX;
+  int templeX = Main.templeX;
+  int surface = Main.worldSurface;
+      int a = Math.Round((area.X + area.Width)/2);
+       
+      if (Math.Round((area.Y + area.Height)/2) < (surface + 100)){
+        if ( a < (dungeonX + 100) && a > (dungeonX - 100)){
+        throw new InvalidOperationException("Unable to create house region on this area.");
+        return;
+      }
+      
+      }else{
+      if ( a < (dungeonX + 300) && a > (dungeonX - 300)){
+        throw new InvalidOperationException("Unable to create house region on this area.");
+        return;
+      }
+      }
+      if ( a < (templeX + 300) && a > (templeX - 300)){
+        throw new InvalidOperationException("Unable to create house region on this area.");
+        return;
+      }
+      
       if (!TShock.Regions.AddRegion(
         area.X, area.Y, area.Width, area.Height, houseName, user.Name, Main.worldID.ToString(), 
         this.Config.DefaultZIndex
