@@ -27,7 +27,7 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
 
     public static string DataDirectory => Path.Combine(TShock.SavePath, "House Regions");
     public static string ConfigFilePath => Path.Combine(HouseRegionsPlugin.DataDirectory, "Config.xml");
-
+public System.Timers.Timer tima = 3600000;
     private bool hooksEnabled;
     internal PluginTrace Trace { get; }
     protected PluginInfo PluginInfo { get; }
@@ -55,10 +55,34 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
     #region [Initialization]
     public override void Initialize() {
       ServerApi.Hooks.GamePostInitialize.Register(this, this.Game_PostInitialize);
-
+tima.Elapsed += OnChecke;
+      time.Enabled = true;
       this.AddHooks();
     }
-
+    
+private void OnChecke(object sender, ElapsedEventArgs e){
+    foreach ( var player in TShock.Players ){
+    if (!player.IsLoggedIn){
+    TimeSpan offlineTime = DateTime.Now.Subtract(player.LastActiveTime);
+    double days = offlineTime.TotalDays;
+    if (days > 7){
+    for (int i = 0; i < TShock.Regions.Regions.Count; i++) {
+        Region tsRegion = TShock.Regions.Regions[i];
+        string owner;
+        int dummy;
+        if (HousingManager.TryGetHouseRegionData(tsRegion.Name, out owner, out dummy))
+          {
+          if (owner == player.Account.Name){
+             TShock.Regions.DeleteRegion(tsRegion.Name);
+             }
+          }
+    }
+    
+    }
+    }
+    }
+    }
+    
     private void Game_PostInitialize(EventArgs e) {
       ServerApi.Hooks.GamePostInitialize.Deregister(this, this.Game_PostInitialize);
 
@@ -161,6 +185,8 @@ namespace Terraria.Plugins.CoderCow.HouseRegions {
         this.UserInteractionHandler?.Dispose();
 
         this.RemoveHooks();
+        tima.Elapsed -= OnChecke;
+      time.Enabled = false;
       }
 
       base.Dispose(isDisposing);
