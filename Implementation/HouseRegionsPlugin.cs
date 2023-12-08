@@ -61,9 +61,10 @@ tima.Elapsed += OnChecke;
     }
     
 private void OnChecke(object sender, ElapsedEventArgs e){
-    foreach ( var player in TShock.Players ){
-    if (!player.IsLoggedIn){
-    TimeSpan offlineTime = DateTime.Now.Subtract(player.LastActiveTime);
+    foreach (var player in TShock.UserAccounts.GetUserAccounts())
+{
+    
+    TimeSpan offlineTime = DateTime.Now.Subtract(player.LastAccessed);
     double days = offlineTime.TotalDays;
     if (days > 7){
     for (int i = 0; i < TShock.Regions.Regions.Count; i++) {
@@ -72,14 +73,14 @@ private void OnChecke(object sender, ElapsedEventArgs e){
         int dummy;
         if (HousingManager.TryGetHouseRegionData(tsRegion.Name, out owner, out dummy))
           {
-          if (owner == player.Account.Name){
+          if (owner == player.Name){
              TShock.Regions.DeleteRegion(tsRegion.Name);
              }
           }
     }
     
     }
-    }
+    
     }
     }
     
